@@ -161,7 +161,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8 relative">
+    <div className="min-h-screen bg-green-50 py-12 px-4 sm:px-6 lg:px-8 relative">
       <div className="absolute inset-0 bucket-pattern pointer-events-none"></div>
       <div className="max-w-3xl mx-auto relative z-10">
         <h1 className="text-4xl font-bold text-center mb-2 text-gray-900">
