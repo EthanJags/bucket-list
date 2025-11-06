@@ -128,7 +128,10 @@ export default function Home() {
   useEffect(() => {
     if (isInitialized.current) {
       if (checkedItems.size > 0) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(checkedItems)));
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(Array.from(checkedItems))
+        );
       } else {
         localStorage.removeItem(STORAGE_KEY);
       }
@@ -158,8 +161,9 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8 relative">
+      <div className="absolute inset-0 bucket-pattern pointer-events-none"></div>
+      <div className="max-w-3xl mx-auto relative z-10">
         <h1 className="text-4xl font-bold text-center mb-2 text-gray-900">
           100 Things to Do Before you Die
         </h1>
@@ -171,16 +175,19 @@ export default function Home() {
           {bucketListItems.map((item, index) => (
             <label
               key={index}
-              className="flex items-start gap-3 p-3 rounded hover:bg-gray-50 cursor-pointer group"
+              className="flex items-center gap-2 rounded hover:bg-gray-50 cursor-pointer group"
             >
+              <span className="w-8 text-right font-semibold text-gray-600 select-none flex items-center justify-end h-full">
+                {index + 1}.
+              </span>
               <input
                 type="checkbox"
                 checked={checkedItems.has(index)}
                 onChange={() => handleCheckboxChange(index)}
-                className="mt-1 w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer flex-shrink-0 align-middle"
               />
-              <span className="flex-1 text-gray-800 group-hover:text-gray-900">
-                {index + 1}. {item}
+              <span className="flex-1 font-semibold text-gray-800 group-hover:text-gray-900 flex items-center h-full">
+                {item}
               </span>
             </label>
           ))}
@@ -189,7 +196,7 @@ export default function Home() {
         <div className="text-center mb-8 flex gap-4 justify-center">
           <button
             onClick={handleCheckScore}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors"
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors"
           >
             Check my score
           </button>
@@ -205,7 +212,7 @@ export default function Home() {
 
         {showScore && (
           <div className="text-center p-8 bg-gray-50 rounded-lg">
-            <div className="text-6xl font-bold text-blue-600 mb-2">
+            <div className="text-6xl font-bold text-red-600 mb-2">
               {calculateScore()}
             </div>
             <div className="text-xl text-gray-700">
