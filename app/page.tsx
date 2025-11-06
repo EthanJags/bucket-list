@@ -175,7 +175,7 @@ export default function Home() {
           {bucketListItems.map((item, index) => (
             <label
               key={index}
-              className="flex items-center gap-2 rounded hover:bg-gray-50 cursor-pointer group"
+              className="flex items-center gap-2 rounded cursor-pointer group"
             >
               <span className="w-8 text-right font-semibold text-gray-600 select-none flex items-center justify-end h-full">
                 {index + 1}.
