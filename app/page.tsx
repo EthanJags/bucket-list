@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const bucketListItems = [
   "Set foot on all continents",
@@ -105,9 +105,35 @@ const bucketListItems = [
   "Feel like the happiest person on Earth.",
 ];
 
+const STORAGE_KEY = "bucket-list-checked-items";
+
 export default function Home() {
   const [checkedItems, setCheckedItems] = useState<Set<number>>(new Set());
   const [showScore, setShowScore] = useState(false);
+  const isInitialized = useRef(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved) as number[];
+        setCheckedItems(new Set(parsed));
+      } catch (error) {
+        console.error("Failed to load saved progress:", error);
+      }
+    }
+    isInitialized.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (isInitialized.current) {
+      if (checkedItems.size > 0) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(checkedItems)));
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+  }, [checkedItems]);
 
   const handleCheckboxChange = (index: number) => {
     const newChecked = new Set(checkedItems);
@@ -117,6 +143,10 @@ export default function Home() {
       newChecked.add(index);
     }
     setCheckedItems(newChecked);
+  };
+
+  const handleClearCheckboxes = () => {
+    setCheckedItems(new Set());
   };
 
   const calculateScore = () => {
@@ -156,13 +186,21 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 flex gap-4 justify-center">
           <button
             onClick={handleCheckScore}
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors"
           >
             Check my score
           </button>
+          {checkedItems.size > 0 && (
+            <button
+              onClick={handleClearCheckboxes}
+              className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors"
+            >
+              Clear checkboxes
+            </button>
+          )}
         </div>
 
         {showScore && (
