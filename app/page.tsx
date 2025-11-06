@@ -211,7 +211,7 @@ export default function Home() {
         </div>
 
         {showScore && (
-          <div className="text-center p-8 bg-gray-50 border-3 border-gray-700 rounded-lg">
+          <div className="text-center p-8 bg-gray-50 rounded-lg">
             <div className="text-6xl font-bold text-red-600 mb-2">
               {calculateScore()}
             </div>
